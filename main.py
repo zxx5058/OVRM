@@ -182,7 +182,6 @@ def feature_extraction(videoFile, QualityLevel = 0.7):
     return R, Rk, yk, Sk
 
 def moving_average(signal, window_size):
-    # 使用np.convolve来进行移动平均滤波
     window = np.ones(window_size) / window_size
     smoothed_signal = np.convolve(signal, window, mode='same')
     return smoothed_signal
@@ -208,7 +207,6 @@ def motion_artifact_remove(signal, peak_prominence=0.1, threshold=1.2):
     abs_diff = np.abs(np.diff(signal[sorted_combined]))
     aver_diff = np.mean(abs_diff)
     normalized_diff = abs_diff / aver_diff
-    # threshold = (average_amplitude + average_amplitude_valley) / 1.1
     motion_artifacts = []
     count_artifacts = []
     normal_diff = []
@@ -267,13 +265,13 @@ def motion_artifact_remove(signal, peak_prominence=0.1, threshold=1.2):
                     interpolated_values = sine_interpolation(signal[start_frame], signal[peak_frame], start_frame,
                                                              end_frame, direction='down')
             else:
-                if motion_values[0] < motion_values[-1]:  # 上升
+                if motion_values[0] < motion_values[-1]:
                     signal[start_frame] = final_valley_amp
                     signal[end_frame] = final_peak_amp
                     interpolated_values = sine_interpolation(signal[start_frame], signal[end_frame],
                                                              start_frame, end_frame, direction='up')
 
-                else:  # 下降
+                else: 
                     signal[start_frame] = final_peak_amp
                     signal[end_frame] = final_valley_amp
                     interpolated_values = sine_interpolation(signal[start_frame], signal[end_frame],
@@ -318,7 +316,6 @@ def video_split(video_file, num_blocks, output_folder, shfit_distance = 10, wind
         for col in range(num_blocks):
             video_writers[row][col].release()
 
-    # 释放视频对象
     video_reader.release()
 
     R_total = np.zeros((num_blocks, num_blocks, total_frame))
@@ -387,7 +384,6 @@ def video_split(video_file, num_blocks, output_folder, shfit_distance = 10, wind
                                                np.maximum(np.abs(data), np.abs(sym_data)), out=np.zeros_like(data),
                                                where=(np.abs(data) != 0) & (np.abs(sym_data) != 0))
                 if peak_num != 0:
-                    # similar_total[row, col] = np.nansum(similarity_measure) / peak_num * cross_number
                     similar_total[row, col] = np.nansum(similarity_measure) / len(sign_changes) * cross_number
                 else:
                     similar_total[row, col] = 0
@@ -419,12 +415,6 @@ def video_split(video_file, num_blocks, output_folder, shfit_distance = 10, wind
     non_zero_scores = total_score[non_zero_mask]
     non_zero_mean = np.mean(non_zero_scores)
     new_mask = mask_ori & (total_score >= non_zero_mean)
-    # mean_similar = np.mean(std_total[new_mask])
-    # satisfying_max_mask = new_mask & (std_total <= mean_similar)
-    # mean_similar = np.ceil(np.mean(std_total[new_mask]))
-    # satisfying_max_mask = new_mask & (std_total <= mean_similar)
-    # min_peak_amp = np.mean(similar_total[satisfying_max_mask])
-    # final_satisfying_max_mask = satisfying_max_mask & (similar_total >= min_peak_amp)
     mean_similar = np.ceil(np.mean(std_total[new_mask]))
     satisfying_max_mask = new_mask & (std_total <= mean_similar)
     min_peak_amp = np.mean(similar_total[satisfying_max_mask])
@@ -438,8 +428,6 @@ def video_split(video_file, num_blocks, output_folder, shfit_distance = 10, wind
         average_signal[frame] = average_value
 
     fil_average_signal = band_filter(average_signal, frame_rate)
-    # plt.plot(y_total[3, 3, :])
-    # plt.show()
     RR = ImproveCrossingPoint(fil_average_signal, frame_rate, shfit_distance=10, QualityLevel=0.6)
 
 
@@ -457,13 +445,11 @@ if __name__ == '__main__':
     num_samples = len(video_files)
 
     for video_file in video_files:
-        # 构建视频文件的完整路径
         video_path = os.path.join(video_folder, video_file)
         print(video_path)
         numBlocks = 5
         frameRate, predict_signal, RR_predict = video_split(video_path, numBlocks, output_folder)
-
-        # 生成真实呼吸信号
+        
         fs = 50
         serialdata_file = os.path.splitext(video_file)[0] + '.npy'
         serialdata_path = os.path.join(serialdata_folder, serialdata_file)
@@ -483,10 +469,6 @@ if __name__ == '__main__':
         plt.ylabel('Amplitude')
         plt.savefig(image_path)
         plt.close()
-
-        # plt.show()
-        # print("RR_predict:", RR_predict)
-        # print("RR_real:", RR_real)
 
         MAE = abs(RR_predict - RR_real)
         MSE = (RR_predict - RR_real) ** 2
