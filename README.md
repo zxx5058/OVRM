@@ -15,7 +15,8 @@ The OVRM(Optimizing Video-based Respiration Monitoring) algorithm reduces motion
 This is an overview of the peak-trough adaptive motion artifact removal method.
 ![image](https://github.com/zxx5058/OVRM/blob/main/ImagesFolderForReadMe/Motion_artifact.png)
 
-This is an overview of the Characteristic-Driven Adaptive ROI Selection method.(https://github.com/zxx5058/OVRM/blob/main/ImagesFolderForReadMe/ROI%20Selection%20Module_00.png?raw=true)
+This is an overview of the Characteristic-Driven Adaptive ROI Selection method.
+![Overview of the Characteristic-Driven Adaptive ROI Selection Method](https://github.com/zxx5058/OVRM/blob/main/ImagesFolderForReadMe/ROI%20Selection%20Module_00.png?raw=true)
 
 ## 🌟Experiment result
 Bland-Altman plots (up) and correlation plots (down) of estimated rate among different datasets.
