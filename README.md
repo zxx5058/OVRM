@@ -1,7 +1,7 @@
-# Optimizing Video-based Respiration Monitoring: Motion Artifact Reduction and Adaptive ROI Selection (OVRM)
+# Optimizing Video-based Respiration Monitoring: Motion Artifact Reduction and Adaptive ROI Selection (OVRM) 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
 <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a>
-
+Accepted by IEEE Transactions on Multimedia.
 By Xinxin Zhang, [Menghan Hu](https://faculty.ecnu.edu.cn/_s15/hmh/main.psp)
 
 If you have any questions, please contact Xinxin Zhang(Zhangxinxin5058@163.com) or Menghan Hu(mhhu@ce.ecnu.edu.cn).
